@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+</head>
+
+<body>
+    <h1>Login Page</h1>
+    <form>
+        <input type="text" name="username" id="username" placeholder="Username" required>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <input type="submit" value="Login">
+    </form>
+    <script src="index.js"></script>
+    <script>
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value
+            const password = document.getElementById('password').value
+            apiRequest('/api/authenticate', 'POST', { username, password })
+                .then(res => {
+                    if (res.success) {
+                        localStorage.setItem('token', res.token);
+                        window.location = '/'
+                    } else {
+                        alert(res.msg)
+                    }
+                })
+                .catch(err => {
+                    alert('An error occured')
+                })
+        })
+    </script>
+</body>
+
+</html>

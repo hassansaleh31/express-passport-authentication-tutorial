@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profile</title>
+</head>
+
+<body>
+    <div id="user-box"></div>
+    <button id="logout-btn">Logout</button>
+    <script src="index.js"></script>
+    <script>
+        apiRequest('/api/profile', 'GET')
+            .then(res => displayUser(res.user))
+            .catch(err => console.error(err))
+
+        function displayUser(user) {
+            const userBox = document.getElementById('user-box');
+
+            const name = document.createElement('h1');
+            name.innerText = user.name;
+            userBox.appendChild(name);
+
+            const bio = document.createElement('p');
+            bio.innerText = user.bio;
+            userBox.appendChild(bio);
+
+            const image = document.createElement('img')
+            image.src = user.picture;
+            userBox.appendChild(image);
+        }
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            localStorage.clear();
+            window.location = '/login.html';
+        })
+    </script>
+</body>
+
+</html>
